@@ -1,0 +1,27 @@
+<div class="header">
+    <h1>Theo dõi số nước</h1>
+</div>
+<div class="container">
+    <div>
+        <table class="table text-center">
+          <thead>
+            <tr>
+              <th scope="col">STT</th>
+              <th scope="col">Tên</th>
+              <th scope="col">Địa chỉ</th>
+              <th scope="col">Số điên thoại</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let c of customers; let i = index">
+            <tr>
+              <th  class="align-middle" scope="row">{{i}}</th>
+              <td class="align-middle">{{c.name}}</td>
+              <td class="align-middle">{{c.address}}</td>
+              <td class="align-middle">{{c.phone}}</td>
+              <td><button class="btn btn-secondary" routerLink="/tracking/{{c.code}}">Xem chi tiết</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+</div>

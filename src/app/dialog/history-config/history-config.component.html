@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>Lịch sử thay đổi</h2>
+
+<mat-dialog-content>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Bậc</th>
+            <th scope="col">Gía tiền(VNĐ)</th>
+            <th scope="col">Trạng thái</th>
+            <th scope="col">Thời gian cập nhật</th>
+            <th scope="col">Thời gian tạo</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let h of data; let i = index">
+            <tr>
+              <th  class="align-middle" scope="row">{{i}}</th>
+              <td class="align-middle">{{h.config_level}}</td>
+              <td class="align-middle">{{h.price}}</td>
+              <td class="align-middle">{{ (h.is_active == true) ? 'Kích hoạt': 'Không kích hoạt' }}</td>
+              <td class="align-middle">{{h.update_at  | date:"dd/MM/yyyy"}}</td>
+              <td class="align-middle">{{h.create_at  | date:"dd/MM/yyyy"}}</td>
+            </tr>
+          </tbody>
+      </table>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-raised-button (click)="close()">Đóng</button>
+</mat-dialog-actions>

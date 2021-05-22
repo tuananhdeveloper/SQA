@@ -1,0 +1,27 @@
+<div class="header">
+    <h1>Theo dõi số nước</h1>
+</div>
+<div class="container">
+    <div>
+        <table class="table text-center">
+          <thead>
+            <tr>
+              <th scope="col">STT</th>
+              <th scope="col">Chỉ số đầu</th>
+              <th scope="col">Chỉ số cuối</th>
+              <th scope="col">Sản lượng(m3)</th>
+              <th scope="col">Thời gian</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let bill of bills; let i = index">
+            <tr>
+                <th  class="align-middle" scope="row">{{i}}</th>
+                <td class="align-middle">{{bill.start_number}}</td>
+                <td class="align-middle">{{bill.finish_number}}</td>
+                <td class="align-middle">{{bill.finish_number - bill.start_number}}</td>
+                <td class="align-middle">{{bill.month}} / {{bill.year}}</td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+</div>

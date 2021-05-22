@@ -1,0 +1,38 @@
+<div>
+  <nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a href="#" class="navbar-brand">SQA-Tiền nước</a>
+    <div class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a routerLink="notify" class="nav-link">Thông báo số nước</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Theo dõi danh sách
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" routerLink="tracking">Theo dõi số nước</a>
+          <a class="dropdown-item" routerLink="new-customers">Khách hàng mới</a>
+        </div>
+
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Báo cáo
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" routerLink="general-report">Báo cáo tổng hợp số nước</a> <!-- Tổng hợp số nước của từng quận-->
+          <a class="dropdown-item" routerLink="report1">Báo cáo chi tiết tiền nước theo quận</a>
+        </div>
+      </li>
+      
+      <li class="nav-item">
+        <a routerLink="config" class="nav-link">Cấu hình</a>
+      </li>
+
+    </div>
+  </nav>
+  <div class="container mt-3">
+    <router-outlet>
+    </router-outlet>
+  </div>
+</div>

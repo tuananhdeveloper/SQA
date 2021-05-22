@@ -1,0 +1,88 @@
+<div class="header">
+  <h1>Báo cáo tổng hợp số nước</h1>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <mat-label style="font-size: 20px;">Thời gian</mat-label>
+    </div>
+    <div class="col">
+      <mat-form-field appearance="fill">
+        <mat-label>Month and Year</mat-label>
+        <input matInput [matDatepicker]="dp" [formControl]="date">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp
+                        startView="multi-year"
+                        (yearSelected)="chosenYearHandler($event)"
+                        (monthSelected)="chosenMonthHandler($event, dp)"
+                        panelClass="example-month-picker">
+        </mat-datepicker>
+      </mat-form-field>
+      
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-primary" (click)="report()">Xem báo cáo</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <mat-label style="font-size: 20px;">Quận</mat-label>
+    </div>
+    <div class="col">
+      <form class="example-form">
+        <mat-form-field class="example-full-width">
+          <mat-label>Quận</mat-label>
+          <input type="text"
+                 placeholder="Chọn"
+                 aria-label="Quận"
+                 matInput
+                 [formControl]="district"
+                 [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </div>
+    <div class="col">
+      
+    </div>
+  </div>
+
+</div>
+<div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Tên</th>
+        <th scope="col">Chỉ số đầu</th>
+        <th scope="col">Chỉ số cuối</th>
+        <th scope="col">Số nước</th>
+      </tr>
+    </thead>
+    <div style="margin-top: 20px;" *ngIf="bills == null || bills.length === 0">
+      <h2>Không có dữ liệu</h2>
+    </div>
+    
+    <tbody *ngFor="let bill of bills; let i = index">
+      <tr>
+        <th  class="align-middle" scope="row">{{i}}</th>
+        <td class="align-middle">{{bill.customer.name}}</td>
+        <td class="align-middle">{{bill.start_number}}</td>
+        <td class="align-middle">{{bill.finish_number}}</td>
+        <td class="align-middle">{{bill.finish_number - bill.start_number}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="bills != null && bills.length != 0">
+  <h2>Tổng: {{getTotal()}} mét khối</h2>
+</div>
+<div>
+  <button type="button" class="btn btn-secondary">Xuất báo cáo ra Excel</button>
+  <button type="button" class="btn btn-secondary" style="margin-left: 20px;">In báo cáo</button>
+</div>
