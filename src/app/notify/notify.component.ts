@@ -1,24 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import * as _moment from 'moment';
-// tslint:disable-next-line:no-duplicate-imports
-import {default as _rollupMoment, Moment} from 'moment';
-import { ReportService } from '../report.service';
-import { MatDatepicker } from '@angular/material/datepicker';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
-import { MY_FORMATS } from '../general-report/general-report.component';
-import {map, startWith} from 'rxjs/operators';
-import { ConfigService } from 'src/app/config/config.service';
-import * as XLSX from 'xlsx'; 
+import { MatDatepicker } from '@angular/material/datepicker';
+import moment, { Moment } from 'moment';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
+import { ConfigService } from '../config/config.service';
+import { MY_FORMATS } from '../report/general-report/general-report.component';
+import { ReportService } from '../report/report.service';
+import { NotifyService } from './notify.service';
 
-
-const moment = _rollupMoment || _moment;
 @Component({
-  selector: 'app-report1',
-  templateUrl: './report1.component.html',
-  styleUrls: ['./report1.component.css'],
+  selector: 'app-notify',
+  templateUrl: './notify.component.html',
+  styleUrls: ['./notify.component.css'],
   providers: [
     // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
     // application's root module. We provide it at the component level here, due to limitations of
@@ -32,14 +28,7 @@ const moment = _rollupMoment || _moment;
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
   ]
 })
-export class Report1Component implements OnInit {
-
-  constructor(private reportService: ReportService,
-    private configSerivce: ConfigService) {
-
-  }
-
-  fileName = "WaterExport.xlsx";
+export class NotifyComponent implements OnInit {
   date = new FormControl(moment());
   district = new FormControl();
   bills: any;
@@ -47,7 +36,10 @@ export class Report1Component implements OnInit {
   totalPrice = 0;
   filteredOptions: Observable<string[]> | undefined;
 
-  checked: boolean = false;
+  constructor(private reportService: ReportService,
+    private configSerivce: ConfigService,
+    private notifyService: NotifyService) { }
+
   ngOnInit(): void {
 
     this.reportService.getAllDistrict().subscribe(
@@ -93,8 +85,7 @@ export class Report1Component implements OnInit {
   getMonth(moment: Moment): Number {
     return Number.parseInt(moment.format("MM"));
   }
-
-
+  
   cal(waterPrice: any, amount: number, bill: any) {
     let totalPrice = 0;
     for(let i = 0; i < waterPrice.length; i++) {
@@ -112,8 +103,7 @@ export class Report1Component implements OnInit {
     this.totalPrice += totalPrice;
   }
 
-  report() {
-    this.totalPrice = 0;
+  filter(): void {
     this.reportService.getBill(this.district.value, 
       this.getYear(this.date.value),
       this.getMonth(this.date.value) 
@@ -130,55 +120,68 @@ export class Report1Component implements OnInit {
                 this.bills[i]);
             }
           }
-        )
-
+        )        
       }
     );
   }
 
-  print(): void {
-    
-    const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
-    if(WindowPrt != null) {
-      const printContent = document.getElementById("mytable");
-      const totalPrice = document.getElementById("totalPrice");
-
-      if(printContent != null && totalPrice != null) {
-        WindowPrt.document.write('<html><head><title>In báo cáo</title>');
-        //WindowPrt.document.write('<link rel="stylesheet" href="http://www.dynamicdrive.com/ddincludes/mainstyle.css" type="text/css" />');
-        WindowPrt.document.write('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">');
-        WindowPrt.document.write('<link rel="preconnect" href="https://fonts.gstatic.com">');
-        WindowPrt.document.write('<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">');
-        WindowPrt.document.write('</head><body >');
-        WindowPrt.document.write(printContent.innerHTML);
-        WindowPrt.document.write(totalPrice.innerHTML);
-        WindowPrt.document.write('</body></html>');
-        WindowPrt.document.close();
-        WindowPrt.print();
-        //WindowPrt.close();
+  notify(): void {
+    let list_data = [];
+    for(let i = 0; i < this.bills.length; i++) {
+      if(this.bills[i].status == 'unpaid') {
+        let data = {
+          id: this.bills[i].id,
+          amount: this.bills[i].new_number - this.bills[i].old_number,
+          old_number: this.bills[i].old_number,
+          new_number: this.bills[i].new_number,
+          total_price: this.bills[i].total_price,
+          month: this.bills[i].month,
+          year: this.bills[i].year,
+          customer: {
+            name: this.bills[i].customer.name,
+            address: this.bills[i].customer.address,
+            phone: this.bills[i].customer.phone,
+            email: this.bills[i].customer.email
+          }
+        }
+  
+        list_data.push(data);
       }
-
-     
     }
 
+    this.notifyService.report(list_data).subscribe((response) => {
+      console.log(response);
+      alert("Đã gửi");
+    });
   }
 
-  exportExcel(): void {
-    if(this.bills != null && this.bills.length > 0) {
-      /* table id is passed over here */   
-      let element = document.getElementById('mytable'); 
-      const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
-      /* generate workbook and add the worksheet */
-      const wb: XLSX.WorkBook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+  send(): void {
+    let list_data = [];
+    for(let i = 0; i < this.bills.length; i++) {
+      if(this.bills[i].status == 'unpaid') {
+        let data = {
+          id: this.bills[i].id,
+          amount: this.bills[i].new_number - this.bills[i].old_number,
+          old_number: this.bills[i].old_number,
+          new_number: this.bills[i].new_number,
+          total_price: this.bills[i].total_price,
+          month: this.bills[i].month,
+          year: this.bills[i].year,
+          customer: {
+            name: this.bills[i].customer.name,
+            address: this.bills[i].customer.address,
+            phone: this.bills[i].customer.phone,
+            email: this.bills[i].customer.email
+          }
+        }
+  
+        list_data.push(data);
+      }
+    }
 
-      /* save to file */
-      XLSX.writeFile(wb, this.fileName);    
-    }
-    else {
-      alert("Không có dữ liệu");
-    }
+    this.notifyService.send(list_data).subscribe((response) => {
+      console.log(response);
+      alert("Đã gửi");
+    });
   }
 }
-
-

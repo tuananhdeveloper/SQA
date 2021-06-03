@@ -42,6 +42,7 @@ export class ConfigComponent implements OnInit {
       data => {
         console.log(data);
         this.configService.add(data).subscribe(data => {
+          alert("Thêm thành công");
           window.location.reload();
         });
       }
@@ -74,6 +75,7 @@ export class ConfigComponent implements OnInit {
       data => {
         this.configService.update(data).subscribe(data => {
           console.log(data);
+          alert("Sửa thành công");
           window.location.reload();
         });
       }

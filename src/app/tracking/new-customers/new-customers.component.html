@@ -1,7 +1,29 @@
 <div class="header">
-    <h1>Khách hàng mới ( mới đăng kí được 30 ngày)</h1>
+    <h1>Theo dõi khách hàng</h1>
 </div>
 <div class="container">
+  <div class="row">
+    <div class="col">
+      <mat-label style="font-size: 20px;">Thời gian</mat-label>
+    </div>
+    <div class="col">
+      <mat-form-field appearance="fill">
+        <mat-label>Month and Year</mat-label>
+        <input matInput [matDatepicker]="dp" [formControl]="date">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp
+                        startView="multi-year"
+                        (yearSelected)="chosenYearHandler($event)"
+                        (monthSelected)="chosenMonthHandler($event, dp)"
+                        panelClass="example-month-picker">
+        </mat-datepicker>
+      </mat-form-field>
+      
+    </div>
+    <div class="col">
+      <button type="button" class="btn btn-primary" (click)="filter()">Lọc</button>
+    </div>
+  </div>
     <div>
         <table class="table text-center">
           <thead>
@@ -10,7 +32,7 @@
                 <th scope="col">Tên</th>
                 <th scope="col">Địa chỉ</th>
                 <th scope="col">Số điên thoại</th>
-                <th scope="col"></th>
+                <th scope="col">Ngày kích hoạt</th>
               </tr>
           </thead>
 

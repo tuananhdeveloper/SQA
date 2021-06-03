@@ -16,9 +16,9 @@
           <tbody *ngFor="let bill of bills; let i = index">
             <tr>
                 <th  class="align-middle" scope="row">{{i}}</th>
-                <td class="align-middle">{{bill.start_number}}</td>
-                <td class="align-middle">{{bill.finish_number}}</td>
-                <td class="align-middle">{{bill.finish_number - bill.start_number}}</td>
+                <td class="align-middle">{{bill.old_number}}</td>
+                <td class="align-middle">{{bill.new_number}}</td>
+                <td class="align-middle">{{bill.new_number - bill.old_number}}</td>
                 <td class="align-middle">{{bill.month}} / {{bill.year}}</td>
               </tr>
           </tbody>

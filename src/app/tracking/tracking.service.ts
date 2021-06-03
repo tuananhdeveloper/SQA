@@ -20,4 +20,8 @@ export class TrackingService {
    getBills(customerId: string): Observable<any> {
      return this.http.get(baseUrl + "/" + customerId + "/bills");
    }
+
+   getCustomers(activeAt: any): Observable<any> {
+     return this.http.get(baseUrl+ "?active_at=" + activeAt);
+   }
 }

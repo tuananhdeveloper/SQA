@@ -25,6 +25,7 @@ import { EditConfigDialogComponent } from './dialog/edit-config-dialog/edit-conf
 import { MatButtonModule } from '@angular/material/button';
 import { HistoryConfigComponent } from './dialog/history-config/history-config.component';
 import { NewCustomersComponent } from './tracking/new-customers/new-customers.component';
+import { NotifyComponent } from './notify/notify.component';
 
 const routes: Routes = [
   {path: '', component: TrackingComponent},
@@ -33,7 +34,8 @@ const routes: Routes = [
   {path: 'tracking', component: TrackingComponent},
   {path: 'tracking/:id', component: DetailedTrackingComponent},
   {path: 'config', component: ConfigComponent},
-  {path: 'new-customers', component: NewCustomersComponent}
+  {path: 'new-customers', component: NewCustomersComponent},
+  {path: 'notify', component: NotifyComponent}
 ];
 
 @NgModule({
@@ -47,7 +49,8 @@ const routes: Routes = [
     AddConfigDialogComponent,
     EditConfigDialogComponent,
     HistoryConfigComponent,
-    NewCustomersComponent
+    NewCustomersComponent,
+    NotifyComponent
   ],
   imports: [
     BrowserModule,

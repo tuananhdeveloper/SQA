@@ -1,5 +1,5 @@
 <div class="header">
-    <h1>Báo cáo chi tiết tiền nước theo quận</h1>
+    <h1>Gửi thông báo</h1>
   </div>
   <div class="container">
     <div class="row">
@@ -21,7 +21,7 @@
         
       </div>
       <div class="col">
-        <button type="button" class="btn btn-primary" (click)="report()">Xem báo cáo</button>
+        <button type="button" class="btn btn-primary" (click)="filter()">Lọc</button>
       </div>
     </div>
     <div class="row">
@@ -52,7 +52,7 @@
     </div>
   
   </div>
-  <div id="mytable">
+  <div>
     <table class="table">
       <thead>
         <tr>
@@ -60,11 +60,13 @@
           <th scope="col">Mã khách hàng</th>
           <th scope="col">Tên</th>
           <th scope="col">Địa chỉ</th>
-          <th scope="col">Số điện thoại</th>
+          <th scope="col">Email</th>
           <th scope="col">Chỉ số đầu</th>
           <th scope="col">Chỉ số cuối</th>
           <th scope="col">Số nước</th>
           <th scope="col">Thành tiền</th>
+          <th scope="col">Ngày cần thanh toán</th>
+          <th scope="col">Trạng thái</th>
         </tr>
       </thead>
       <div style="margin-top: 20px;" *ngIf="bills == null || bills.length === 0">
@@ -72,26 +74,27 @@
       </div>
       <tbody *ngFor="let bill of bills; let i = index">
         <tr>
-          <th  class="align-middle" scope="row">{{i}}</th>
+          <th  class="align-middle">{{i}}</th>
           <td class="align-middle">{{bill.customer.code}}</td>
           <td class="align-middle">{{bill.customer.name}}</td>
           <td class="align-middle">{{bill.customer.address}}</td>
-          <td class="align-middle">{{bill.customer.phone}}</td>
+          <td class="align-middle">{{bill.customer.email}}</td>
           
           <td class="align-middle">{{bill.old_number}}</td>
           <td class="align-middle">{{bill.new_number}}</td>
           <td class="align-middle">{{bill.new_number - bill.old_number}}</td>
           <td class="align-middle">{{bill.total_price}} VNĐ</td>
+          <td class="align-middle">{{bill.payment_date | date: 'dd/MM/yyyy'}}</td>
+          <td class="align-middle">{{bill.status}}</td>
+
         </tr>
       </tbody>
 
     </table>
   </div>
-  <div *ngIf="bills != null && bills.length != 0" id="totalPrice">
-    <h2>Tổng: {{totalPrice}} VNĐ</h2>
-  </div>
 
   <div>
-    <button type="button" class="btn btn-secondary" (click)="exportExcel()">Xuất báo cáo ra Excel</button>
-    <button type="button" class="btn btn-secondary" style="margin-left: 20px;" (click)="print()">In báo cáo</button>
+    <button type="button" class="btn btn-secondary" (click)="send()">Gửi thông báo</button>
+    <button type="button" class="btn btn-secondary" (click)="notify()" style="margin-left: 10px;">Thông báo ngừng cung cấp</button>
+
   </div>

@@ -52,12 +52,15 @@
   </div>
 
 </div>
-<div>
+<div id="mytable">
   <table class="table">
     <thead>
       <tr>
         <th scope="col">STT</th>
+        <th scope="col">Mã khách hàng</th>
         <th scope="col">Tên</th>
+        <th scope="col">Địa chỉ</th>
+        <th scope="col">Số điện thoại</th>
         <th scope="col">Chỉ số đầu</th>
         <th scope="col">Chỉ số cuối</th>
         <th scope="col">Số nước</th>
@@ -70,19 +73,22 @@
     <tbody *ngFor="let bill of bills; let i = index">
       <tr>
         <th  class="align-middle" scope="row">{{i}}</th>
+        <td class="align-middle">{{bill.customer.code}}</td>
         <td class="align-middle">{{bill.customer.name}}</td>
-        <td class="align-middle">{{bill.start_number}}</td>
-        <td class="align-middle">{{bill.finish_number}}</td>
-        <td class="align-middle">{{bill.finish_number - bill.start_number}}</td>
+        <td class="align-middle">{{bill.customer.address}}</td>
+        <td class="align-middle">{{bill.customer.phone}}</td>
+        <td class="align-middle">{{bill.old_number}}</td>
+        <td class="align-middle">{{bill.new_number}}</td>
+        <td class="align-middle">{{bill.new_number - bill.old_number}}</td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<div *ngIf="bills != null && bills.length != 0">
+<div *ngIf="bills != null && bills.length != 0" id="totalPrice">
   <h2>Tổng: {{getTotal()}} mét khối</h2>
 </div>
 <div>
-  <button type="button" class="btn btn-secondary">Xuất báo cáo ra Excel</button>
-  <button type="button" class="btn btn-secondary" style="margin-left: 20px;">In báo cáo</button>
+  <button type="button" class="btn btn-secondary" (click)="exportExcel()">Xuất báo cáo ra Excel</button>
+  <button type="button" class="btn btn-secondary" style="margin-left: 20px;" (click)="print()">In báo cáo</button>
 </div>
