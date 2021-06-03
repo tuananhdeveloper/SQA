@@ -11,6 +11,8 @@
               <th scope="col">Chỉ số cuối</th>
               <th scope="col">Sản lượng(m3)</th>
               <th scope="col">Thời gian</th>
+              <th scope="col"></th>
+
             </tr>
           </thead>
           <tbody *ngFor="let bill of bills; let i = index">
@@ -20,6 +22,7 @@
                 <td class="align-middle">{{bill.new_number}}</td>
                 <td class="align-middle">{{bill.new_number - bill.old_number}}</td>
                 <td class="align-middle">{{bill.month}} / {{bill.year}}</td>
+                <td class="align-middle"><button class="btn btn_secondary" (click)="openEditDialog(bill)">Sửa</button></td>
               </tr>
           </tbody>
         </table>

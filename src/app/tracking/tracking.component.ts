@@ -15,7 +15,13 @@ export class TrackingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.trackingService.getAllCustomer().subscribe(
+
+  }
+
+  search(): void {
+    let customerName = document.getElementById("customer_name") as HTMLInputElement;
+
+    this.trackingService.searchCustomers(customerName.value).subscribe(
       response => {
       
         this.customers = response['items'];

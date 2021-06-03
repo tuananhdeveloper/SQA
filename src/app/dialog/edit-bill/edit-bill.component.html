@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>Sửa</h2>
+
+<mat-dialog-content [formGroup]="form">
+    <div>
+        <mat-form-field>
+            <input [readonly]="true" type="text" matInput
+                    placeholder="Id"
+                   formControlName="id">
+        </mat-form-field> 
+    </div>
+
+    <div>
+        <mat-form-field>
+            <input type="number" matInput
+                    placeholder="Chỉ số đầu"
+                   formControlName="old_number">
+        </mat-form-field> 
+    </div>
+    <div>
+        <mat-form-field>
+            <input type="number" matInput
+                    placeholder="Chỉ số cuối"
+                   formControlName="new_number">
+        </mat-form-field> 
+    </div>
+    <div>
+        <mat-form-field>
+            <input type="number" matInput
+                    placeholder="Sản lượng"
+                   formControlName="amount">
+        </mat-form-field> 
+    </div>
+    <mat-form-field appearance="fill">
+        <mat-label>Month and Year</mat-label>
+        <input matInput [matDatepicker]="dp" [formControl]="date" formControlName="date">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp
+                        startView="multi-year"
+                        (yearSelected)="chosenYearHandler($event)"
+                        (monthSelected)="chosenMonthHandler($event, dp)"
+                        panelClass="example-month-picker">
+        </mat-datepicker>
+      </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-raised-button (click)="close()">Đóng</button>
+    <button mat-raised-button color="primary"(click)="save()">Lưu</button>
+</mat-dialog-actions>

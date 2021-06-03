@@ -41,10 +41,13 @@ export class ConfigComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       data => {
         console.log(data);
-        this.configService.add(data).subscribe(data => {
+        this.configService.add(data).subscribe(
+          data => {
           alert("Thêm thành công");
           window.location.reload();
-        });
+          },
+          error => alert(error.error.message)
+        );
       }
     );
   }

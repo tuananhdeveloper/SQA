@@ -13,7 +13,7 @@ export class EditConfigDialogComponent implements OnInit {
   form: FormGroup;
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<AddConfigDialogComponent>,
+    private dialogRef: MatDialogRef<EditConfigDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private data: any) {
     this.form = fb.group({
       explain: [data.explain, [Validators.required]],

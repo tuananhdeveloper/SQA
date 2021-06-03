@@ -2,6 +2,14 @@
     <h1>Theo dõi số nước</h1>
 </div>
 <div class="container">
+  <div class="text-center">
+    <mat-form-field class="example-full-width" style="width: 400px">
+      <mat-label>Họ tên</mat-label>
+      <input id="customer_name" matInput placeholder="Ex. Nguyễn Văn A">
+    </mat-form-field>
+  
+    <button class="btn btn-primary" style="margin-left: 20px" (click)="search()">Tìm kiếm</button>
+  </div>
     <div>
         <table class="table text-center">
           <thead>
@@ -13,6 +21,10 @@
               <th scope="col"></th>
             </tr>
           </thead>
+          <div style="margin-top: 20px;" *ngIf="customers == null || customers.length === 0">
+            <h4>Không có dữ liệu</h4>
+          </div>
+
           <tbody *ngFor="let c of customers; let i = index">
             <tr>
               <th  class="align-middle" scope="row">{{i}}</th>

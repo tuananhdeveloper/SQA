@@ -26,6 +26,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { HistoryConfigComponent } from './dialog/history-config/history-config.component';
 import { NewCustomersComponent } from './tracking/new-customers/new-customers.component';
 import { NotifyComponent } from './notify/notify.component';
+import { EditBillComponent } from './dialog/edit-bill/edit-bill.component';
 
 const routes: Routes = [
   {path: '', component: TrackingComponent},
@@ -50,7 +51,8 @@ const routes: Routes = [
     EditConfigDialogComponent,
     HistoryConfigComponent,
     NewCustomersComponent,
-    NotifyComponent
+    NotifyComponent,
+    EditBillComponent
   ],
   imports: [
     BrowserModule,
